@@ -21,7 +21,7 @@ sources:
         description: >
           Contains demographic information about each user
       - name: addresses 
-      - name: orders 
+      - name: orders
         loaded_at_field: created_at
       - name: promos 
       - name: order_items 
