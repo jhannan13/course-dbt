@@ -4,9 +4,9 @@ with users_source as (
 
 , renamed_casted as (
   select
-    id
-    , user_id
-    , address_id
+    id as address_id
+    , user_id as user_guid
+    , address_id as address_guid
     , first_name
     , last_name
     , email

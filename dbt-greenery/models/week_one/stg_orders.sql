@@ -11,7 +11,7 @@ with orders_source as (
     , shipping_cost
     , order_total as order_total_cost
     , status as order_status
-    , promo_id::varchar as desc
+    , promo_id::varchar as promo_desc
     , created_at as created_at_utc
     , estimated_delivery_at as estimated_delivery_at_utc
     , delivered_at as delivered_at_utc
