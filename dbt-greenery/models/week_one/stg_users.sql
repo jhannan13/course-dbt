@@ -4,7 +4,7 @@ with users_source as (
 
 , renamed_casted as (
   select
-    id as address_id
+    id as user_id
     , user_id as user_guid
     , address_id as address_guid
     , first_name
