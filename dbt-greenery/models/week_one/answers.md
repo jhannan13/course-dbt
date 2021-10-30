@@ -48,4 +48,52 @@ from order_deliveries;
 (1 row)
 ```
 ### How many users have only made one purchase? Two purchases? Three+ purchases? 
+```sql
+with orders_cohort as (
+  select
+    user_guid
+    , count(distinct order_guid) as user_orders
+  from dbt.dbt_jhannan.stg_orders
+  group by 1
+)
+, users_bucket as (
+  select 
+    user_guid
+    , (user_orders = 1)::int as has_one_purchases
+    , (user_orders = 2)::int as has_two_purchases
+    , (user_orders = 3)::int as has_three_purchases
+  from orders_cohort
+)
+
+select
+  sum(has_one_purchases) as one_purchase
+  , sum(has_two_purchases) as two_purchases
+  , sum(has_three_purchases) as three_purchases
+from users_bucket
+```
+```
+ one_purchase | two_purchases | three_purchases 
+--------------+---------------+-----------------
+           25 |            22 |              32
+(1 row)
+```
+
 ### On average, how many unique sessions do we have per hour?
+```sql
+with hourly_sessions as (
+  select
+    date_trunc('hour', created_at_utc) as session_hour
+    , count(distinct session_guid) as sessions
+  from dbt.dbt_jhannan.stg_events
+  group by 1
+)
+
+select avg(sessions) as avg_sessions
+from hourly_sessions;
+```
+```
+    avg_sessions    
+--------------------
+ 7.3894009216589862
+(1 row)
+```
